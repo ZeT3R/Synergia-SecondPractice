@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Блог</title>
+</head>
+<body>
+    <nav>
+        <a href="/" style="color:white; text-decoration:none">🏠 MyBlog</a>
+        <div id="auth-nav">
+            <a href="/login.html" style="color:white">Войти</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="editor-zone" style="display:none">
+            <h3>Новый пост</h3>
+            <form id="postForm">
+                <input type="text" id="title" placeholder="Заголовок" required>
+                <textarea id="content" placeholder="Текст поста..." required></textarea>
+                <input type="text" id="tags" placeholder="Теги (через запятую)">
+                <label><input type="checkbox" id="is_hidden"> Скрытый пост</label>
+                <button type="submit">Опубликовать</button>
+            </form>
+        </div>
+
+        <div id="posts-list">
+            {% for post in posts %}
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                <div>
+                    {% for tag in post.tags %}
+                    <span class="tag" onclick="location.href='/?tag={{tag.name}}'">#{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                <hr>
+                <button onclick="followUser({{post.author_id}})">Подписаться на автора</button>
+                <div class="comments">
+                    <input type="text" id="comm-{{post.id}}" placeholder="Ваш комментарий">
+                    <button onclick="addComment({{post.id}})">Отправить</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
